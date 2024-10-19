@@ -1,0 +1,50 @@
+#include <iostream>
+#include <set>
+#include <string>
+using namespace std;
+
+// Function to check if a filtered string is a valid alternating string
+bool isValidAlternate(const string& str) {
+    for (int i = 1; i < str.length(); ++i) {
+        if (str[i] == str[i - 1]) {
+            return false; // Consecutive characters are the same
+        }
+    }
+    return true; // The string is alternating
+}
+
+int alternate(const string& s) {
+    // Get all unique characters in the string
+    set<char> uniqueChars(s.begin(), s.end());
+    int maxLength = 0;
+
+    // Check all pairs of unique characters
+    for (char first : uniqueChars) {
+        for (char second : uniqueChars) {
+            if (first == second) continue;
+
+            // Filter string to contain only the two characters
+            string filtered = "";
+            for (char ch : s) {
+                if (ch == first || ch == second) {
+                    filtered += ch;
+                }
+            }
+
+            // Check if the filtered string is alternating
+            if (isValidAlternate(filtered)) {
+                maxLength = max(maxLength, (int)filtered.length());
+            }
+        }
+    }
+    return maxLength;
+}
+
+int main() {
+    int n;
+    string s;
+    cin >> n >> s;
+    cout << alternate(s) << endl;
+    return 0;
+}
+
